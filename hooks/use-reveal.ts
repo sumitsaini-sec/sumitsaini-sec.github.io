@@ -1,0 +1,3 @@
+'use client';
+import { useEffect } from 'react';
+export function useReveal(){useEffect(()=>{if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('revealed');observer.unobserve(e.target)}})},{threshold:.06});document.querySelectorAll('.section-heading,.project-card,.skill-block,.experience-item,.certificate,.resume-section').forEach(e=>{if(e.getBoundingClientRect().top>window.innerHeight){e.classList.add('will-reveal');observer.observe(e)}});return()=>{observer.disconnect();document.querySelectorAll('.will-reveal').forEach(e=>e.classList.remove('will-reveal'))}},[])}

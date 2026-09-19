@@ -1,0 +1,2 @@
+import { ArrowLeft } from 'lucide-react';
+export default function NotFound(){return <main className="shell" style={{minHeight:'100vh',display:'flex',justifyContent:'center',flexDirection:'column',alignItems:'flex-start',gap:20}}><span className="eyebrow">404 / ROUTE NOT FOUND</span><h1>This trail ends here.</h1><p style={{color:'#a0aec3'}}>The page you’re looking for isn’t in this portfolio.</p><a className="button primary" href="/"><ArrowLeft size={16}/>Back to the portfolio</a></main>}

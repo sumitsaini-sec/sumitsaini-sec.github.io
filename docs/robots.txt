@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://sumitsaini-sec.github.io/sitemap.xml
