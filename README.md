@@ -1,6 +1,8 @@
 # Sumit Saini — Cybersecurity Portfolio
 
-Complete portfolio prepared for free GitHub Pages hosting. This package is ready to upload; the GitHub Pages address is not live until repository setup and publishing succeed.
+Live portfolio: https://sumitsaini-sec.github.io/
+
+Hosted on free GitHub Pages from the `main` branch and `/docs` folder. This repository includes editable source and the complete static export.
 
 ## Publish without installing anything
 
@@ -10,7 +12,7 @@ Complete portfolio prepared for free GitHub Pages hosting. This package is ready
 4. Wait for GitHub's Pages deployment to complete. Open the address shown by **Visit site** and check the project case studies, SOC demo, mobile menu and resume.
 5. Only after the new site works, replace the old portfolio link in LinkedIn and the GitHub profile README with the verified new address. Update the resume portfolio link too.
 
-Expected address after successful setup: `https://sumitsaini-sec.github.io`.
+Portfolio address: `https://sumitsaini-sec.github.io`.
 GitHub Free requires this repository to be public. No domain purchase, API key or paid server is needed. There is no contact-form email service: the existing validated email-draft flow is preserved.
 
 ## Included
@@ -36,9 +38,9 @@ Commit the refreshed `docs/` folder to publish updates. `pnpm dev` starts local 
 - Production static export and TypeScript checks passed.
 - All rendered local asset references and anchor targets were checked against the export.
 - Canonical, sitemap and social metadata target the planned GitHub Pages address.
-- Existing layout and interaction components are preserved from the reviewed portfolio. A fresh browser check of this static export was unavailable; repeat the short checks in step 4 before sharing.
+- Existing layout and interaction components are preserved from the reviewed portfolio. Live browser checks passed for all SOC evidence tabs, analyst handoff, project case study and project images. No horizontal overflow was observed at 1363px; no site JavaScript errors were observed.
 - GitHub Pages supplies hosting headers. The original Worker response-header configuration does not transfer. This export includes a meta Content Security Policy and referrer policy; it does not claim custom HSTS, Permissions-Policy or frame-ancestors headers.
 - Linked project demos keep their actual project URLs. Moving this portfolio does not move Sentinel Desk itself.
-- The current resume still links to the existing working portfolio until the new deployment is verified.
+- The resume includes a clickable link to this GitHub Pages portfolio.
 
 Official instructions: https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site
