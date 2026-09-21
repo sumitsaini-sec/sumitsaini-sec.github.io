@@ -1,4 +1,4 @@
-:HL["/_next/static/css/88a858207b029bb0.css","style"]
+:HL["/_next/static/css/83e4c8b0b7bed774.css","style"]
 :HL["/fonts/geist-latin.woff2","font",{"crossOrigin":"anonymous","type":"font/woff2"}]
 :HL["/fonts/geist-mono-latin.woff2","font",{"crossOrigin":"anonymous","type":"font/woff2"}]
-0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}},"staleTime":300,"buildId":"D1rCUxt_2L0TYNK1YuW26"}
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}},"staleTime":300,"buildId":"Qcjtzi7B8w3UsEUzHGixH"}
