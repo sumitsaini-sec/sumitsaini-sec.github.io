@@ -12,7 +12,7 @@ export function useReveal() {
         }
       });
     }, { threshold: .06 });
-    const elements = document.querySelectorAll<HTMLElement>('.section-heading,.project-card,.skill-block,.experience-item,.certificate,.resume-section');
+    const elements = document.querySelectorAll<HTMLElement>('.section-heading,.project-card,.capability,.experience-card,.resume-section');
     elements.forEach(element => {
       if (element.closest('details:not([open])')) return;
       if (element.getBoundingClientRect().top > window.innerHeight) {

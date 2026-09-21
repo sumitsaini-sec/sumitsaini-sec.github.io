@@ -1,8 +1,9 @@
 'use client';
+import { useState, type PointerEvent } from 'react';
 import { Github } from '@/components/brand-icons';
 import { projects, portfolio } from '@/data/portfolio';
 import { projectSummaries } from '@/data/project-summaries';
-import { ArrowUpRight, FileText, X, Check } from 'lucide-react';
+import { ArrowUpRight, FileText, X, ChevronDown, Layers } from 'lucide-react';
 import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
 import { SectionHeading, ProjectVisual, ExternalLink } from '@/components/shared';
 import type { Project } from '@/types/portfolio';
@@ -26,19 +27,50 @@ function CaseStudy({project:p}:{project:Project}){
     <div className="actions">{p.github&&<ExternalLink href={p.github} className="button"><Github size={18}/>GitHub repository<ArrowUpRight size={16}/></ExternalLink>}{p.demo&&<ExternalLink href={p.demo} className="text-link">Open hosted lab<ArrowUpRight size={16}/></ExternalLink>}</div>
   </DialogContent>;
 }
+const projectCopy: Record<string, string> = {
+  'sentinel-desk': 'A simulated SOC workspace. Follow evidence, investigate alerts and document a defensible verdict.',
+  'home-lab': 'Windows, Kali and Metasploitable. An isolated lab for network scans, logs and defensive practice.',
+  'soc-dashboard': 'An earlier local dashboard for alert triage and structured incident notes.',
+};
+function ProjectCard({project:p}:{project:Project}) {
+  const [expanded,setExpanded]=useState(false);
+  const summary=projectSummaries[p.id];
+  const compact=p.id==='soc-dashboard';
+  const moveGlow=(event:PointerEvent<HTMLElement>)=>{
+    if(event.pointerType==='touch') return;
+    const card=event.currentTarget; const rect=card.getBoundingClientRect();
+    card.style.setProperty('--glow-x',`${event.clientX-rect.left}px`);
+    card.style.setProperty('--glow-y',`${event.clientY-rect.top}px`);
+  };
+  return <article className={`project-card showcase-card project-${p.kind} ${compact?'compact-project':''}`} onPointerMove={moveGlow}>
+    <Dialog>
+      {!compact&&<div className="project-image"><ProjectVisual project={p}/></div>}
+      {compact&&<div className="archive-icon" aria-hidden="true"><Layers size={27}/></div>}
+      <div className="project-content">
+        <span className="project-status">PROJECT {p.number} / {compact?'EARLIER EXPLORATION':p.status.toUpperCase()}</span>
+        <h3 className="project-title"><DialogTrigger asChild><button className="project-title-button">{p.name}<ArrowUpRight size={22}/></button></DialogTrigger></h3>
+        <p className="project-description">{projectCopy[p.id]}</p>
+        {!compact&&<div className="tags" aria-label="Tools and concepts">{p.tags.map(t=><span key={t}>{t}</span>)}</div>}
+        <div className="project-links">
+          <DialogTrigger asChild><button className="text-link">Case study<ArrowUpRight size={16}/></button></DialogTrigger>
+          {p.github&&<ExternalLink href={p.github} label={`${p.name} on GitHub`}><Github size={16}/>GitHub</ExternalLink>}
+          {p.demo&&<ExternalLink href={p.demo}>Live lab<ArrowUpRight size={16}/></ExternalLink>}
+          <button className="project-expand" aria-label={`${expanded?'Collapse':'Expand'} ${p.name} details`} aria-expanded={expanded} aria-controls={`project-details-${p.id}`} onClick={()=>setExpanded(!expanded)}><ChevronDown size={20}/></button>
+        </div>
+      </div>
+      <div className="project-expanded" id={`project-details-${p.id}`} hidden={!expanded}>
+        <div><span className="tiny-label">MY ROLE</span><p>{summary.role}</p><small>{summary.environment}</small></div>
+        <div><span className="tiny-label">WHAT I BUILT</span><ul>{summary.work.map(line=><li key={line}>{line}</li>)}</ul></div>
+        <div><span className="tiny-label">EVIDENCE</span><p>{summary.evidence}</p>{p.evidenceLinks?.map(e=><ExternalLink key={e.url} href={e.url}>{e.label}<ArrowUpRight size={14}/></ExternalLink>)}</div>
+      </div>
+      <CaseStudy project={p}/>
+    </Dialog>
+  </article>;
+}
 export default function Projects(){
   const selected=['sentinel-desk','home-lab','soc-dashboard'].map(id=>projects.find(project=>project.id===id)!);
-  return <section id="projects" className="section shell"><div className="heading-row"><SectionHeading number="01" label="SELECTED WORK" title="Built. Tested. Investigated."/><ExternalLink href={portfolio.socials.github} className="text-link">View GitHub profile<ArrowUpRight size={17}/></ExternalLink></div><div className="projects-grid">{selected.map(p=>{
-    const summary=projectSummaries[p.id];
-    return <article className={`project-card ${p.kind==='sentinel'?'featured':''} project-${p.kind}`} key={p.id}><Dialog>
-      <div className="project-image"><ProjectVisual project={p} large={p.kind==='sentinel'}/></div>
-      <div className="project-content"><span className="project-status">{p.status}</span><h3 className="project-title"><DialogTrigger asChild><button className="project-title-button">{p.name}<ArrowUpRight size={21}/></button></DialogTrigger></h3><p className="project-description">{p.description}</p>
-        <dl className="project-context"><div><dt>My role</dt><dd>{summary.role}</dd></div><div><dt>Environment</dt><dd>{summary.environment}</dd></div></dl>
-        <ul className="project-work">{summary.work.map(line=><li key={line}><Check size={16}/><span>{line}</span></li>)}</ul>
-        <div className="tags" aria-label="Tools and concepts">{p.tags.map(t=><span key={t}>{t}</span>)}</div>
-        <div className="project-proof"><FileText size={16}/><span>{summary.evidence}</span></div>
-        <div className="project-links"><DialogTrigger asChild><button className="text-link">View case study<ArrowUpRight size={16}/></button></DialogTrigger>{p.github&&<ExternalLink href={p.github} label={`${p.name} on GitHub`}><Github size={16}/>GitHub</ExternalLink>}{p.demo&&<ExternalLink href={p.demo} label="Open Sentinel Desk hosted lab">Live project<ArrowUpRight size={16}/></ExternalLink>}</div>
-      </div><CaseStudy project={p}/>
-    </Dialog></article>;
-  })}</div></section>;
+  return <section id="projects" className="section projects-section"><div className="shell">
+    <div className="heading-row"><SectionHeading number="01" label="SELECTED WORK" title="Proof, not just a skill list."/><span className="section-aside">Built in labs.<br/>Backed by evidence.</span></div>
+    <div className="project-showcase">{selected.map(p=><ProjectCard key={p.id} project={p}/>)}</div>
+  </div></section>;
 }
